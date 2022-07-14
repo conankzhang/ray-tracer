@@ -10,5 +10,5 @@ add_executable(ray-tracer ${SOURCE_FILES})
 add_custom_command(
 	TARGET ray-tracer 
 	POST_BUILD 
-	COMMAND ray-tracer > image.ppm 
+	COMMAND ray-tracer > image.ppm && code image.ppm
 )
