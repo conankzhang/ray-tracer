@@ -16,8 +16,8 @@ int main()
             constexpr double blue = 0.25;
 
             const int redInt = static_cast<int>(255.999 * red);
-            const int blueInt = static_cast<int>(255.999 * green);
-            const int greenInt = static_cast<int>(255.999 * blue);
+            const int greenInt = static_cast<int>(255.999 * green);
+            const int blueInt = static_cast<int>(255.999 * blue);
 
             std::cout << redInt << ' ' << greenInt << ' ' << blueInt << '\n';
         }
