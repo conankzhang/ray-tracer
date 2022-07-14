@@ -9,10 +9,11 @@ int main()
 
     for (int j = imageHeight - 1; j > 0; --j)
     {
+        std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < imageWidth; ++i)
         {
-            const double red = double(i) / (imageWidth - 1);
-            const double green = double(j) / (imageHeight - 1);
+            const double red = static_cast<double>(i) / (imageWidth - 1);
+            const double green = static_cast<double>(j) / (imageHeight - 1);
             constexpr double blue = 0.25;
 
             const int redInt = static_cast<int>(255.999 * red);
@@ -22,4 +23,6 @@ int main()
             std::cout << redInt << ' ' << greenInt << ' ' << blueInt << '\n';
         }
     }
+
+    std::cerr << "\nDone.\n";
 }
