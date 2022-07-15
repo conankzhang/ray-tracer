@@ -7,7 +7,7 @@ const Double3& Ray::Origin() const
 
 const Double3& Ray::Direction() const
 {
-    return m_Origin;
+    return m_Direction;
 }
 
 Double3 Ray::At(double length) const

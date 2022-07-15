@@ -125,12 +125,12 @@ Double3 Double3::Normalized(const Double3& vector)
     return vector / vector.Length();
 }
 
-void PrintVector(std::ostream& ostream, const Double3& vector)
+void Double3::PrintVector(std::ostream& ostream, const Double3& vector)
 {
     ostream << "X: " << vector.X() << " Y: " << vector.Y() << " Z: " << vector.Z();
 }
 
-void WriteColor(std::ostream& ostream, const Double3& color)
+void Double3::WriteColor(std::ostream& ostream, const Double3& color)
 {
     const int redInt = static_cast<int>(255.999 * color.R());
     const int greenInt = static_cast<int>(255.999 * color.G());
