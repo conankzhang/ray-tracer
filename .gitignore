@@ -49,4 +49,4 @@ _deps
 *-prefix/
 
 # Directores
-build/
+bin/
