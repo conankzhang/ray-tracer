@@ -8,7 +8,7 @@ inline std::ostream& operator<<(std::ostream& ostream, const Color& color)
     const int greenInt = static_cast<int>(255.999 * color.Y());
     const int blueInt = static_cast<int>(255.999 * color.Z());
 
-    ostream << redInt << ' ' << greenInt << ' ' << blueInt << '\n';
+    return ostream << redInt << ' ' << greenInt << ' ' << blueInt << '\n';
 }
 
 double Color::R() const
