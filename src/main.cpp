@@ -1,6 +1,15 @@
 #include <iostream>
 
-#include "Color.h"
+#include "Double3.h"
+#include "Double3.inl"
+#include "Ray.h"
+
+Double3 getRayColor(const Ray& ray)
+{
+    const Double3 direction = Double3::Normalized(ray.Direction());
+    const double length = 0.5 * (direction.Y() + 1.0);
+    return (1.0 - length) * Double3(1.0, 1.0, 1.0) + (Double3(0.5, 0.7, 1.0) * length);
+}
 
 int main()
 {
@@ -19,8 +28,8 @@ int main()
             const double green = static_cast<double>(j) / (imageHeight - 1);
             constexpr double blue = 0.25;
 
-            Color color(red, green, blue);
-            std::cout << color;
+            Double3 color(red, green, blue);
+            WriteColor(std::cout, color);
         }
     }
 

@@ -1,26 +1,27 @@
 #pragma once
 
-#include "Vector3.h"
+#include "Double3.h"
 
 class Ray
 {
+public:
     Ray()
     {
     }
 
-    Ray(const Vector3& origin, const Vector3& direction)
+    Ray(const Double3& origin, const Double3& direction)
         : m_Origin(origin),
           m_Direction(direction)
     {
     }
 
-    const Vector3& Origin() const;
-    const Vector3& Direction() const;
-    Vector3 At(double length) const;
+    const Double3& Origin() const;
+    const Double3& Direction() const;
+    Double3 At(double length) const;
 
 private:
-    Vector3 m_Origin;
-    Vector3 m_Direction;
+    Double3 m_Origin;
+    Double3 m_Direction;
 };
 
 #include "Ray.inl"
