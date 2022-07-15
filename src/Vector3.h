@@ -39,6 +39,4 @@ private:
     double m_Components[3];
 };
 
-using Point3 = Vector3;
-
 #include "Vector3.inl"
