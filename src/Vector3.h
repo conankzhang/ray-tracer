@@ -40,6 +40,5 @@ private:
 };
 
 using Point3 = Vector3;
-using Color = Vector3;
 
 #include "Vector3.inl"
