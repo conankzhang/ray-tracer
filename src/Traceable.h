@@ -6,5 +6,5 @@ struct HitResult;
 class Traceable
 {
 public:
-    virtual bool Trace(const Ray& ray, double rayStart, double rayEnd, HitResult& outResult) const = 0;
+    virtual bool Trace(const Ray& ray, float rayStart, float rayEnd, HitResult& outResult) const = 0;
 };

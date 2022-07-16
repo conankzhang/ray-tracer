@@ -1,19 +1,19 @@
 #include <iostream>
 
-#include "Double3.h"
-#include "Double3.inl"
+#include "Float3.h"
+#include "Float3.inl"
 #include "Ray.h"
 
-double rayCollidesWithSphere(const Ray& ray, const Double3& center, double radius)
+float rayCollidesWithSphere(const Ray& ray, const Float3& center, float radius)
 {
-    const Double3 centerToOrigin = ray.Origin() - center;
+    const Float3 centerToOrigin = ray.Origin() - center;
 
     // Quadratic Formula
-    const double a = ray.Direction().LengthSquared();
-    const double halfB = Double3::Dot(centerToOrigin, ray.Direction());
-    const double c = centerToOrigin.LengthSquared() - radius * radius;
+    const float a = ray.Direction().LengthSquared();
+    const float halfB = Float3::Dot(centerToOrigin, ray.Direction());
+    const float c = centerToOrigin.LengthSquared() - radius * radius;
 
-    const double discriminant = halfB * halfB - a * c;
+    const float discriminant = halfB * halfB - a * c;
     if (discriminant < 0)
     {
         return -1.0;
@@ -24,40 +24,40 @@ double rayCollidesWithSphere(const Ray& ray, const Double3& center, double radiu
     }
 }
 
-Double3 getRayColor(const Ray& ray)
+Float3 getRayColor(const Ray& ray)
 {
-    const Double3 sphereCenter = Double3(0.0, 0.0, -1.0);
-    constexpr double sphereRadius = 0.5;
+    const Float3 sphereCenter = Float3(0.0, 0.0, -1.0);
+    constexpr float sphereRadius = 0.5;
 
-    double rayEnd = rayCollidesWithSphere(ray, sphereCenter, sphereRadius);
+    float rayEnd = rayCollidesWithSphere(ray, sphereCenter, sphereRadius);
     if (rayEnd > 0.0)
     {
         // Return normal map of sphere
-        const Double3 surfaceNormal = Double3::Normalized(ray.At(rayEnd) - sphereCenter);
-        return 0.5 * Double3(surfaceNormal.X() + 1, surfaceNormal.Y() + 1, surfaceNormal.Z() + 1);
+        const Float3 surfaceNormal = Float3::Normalized(ray.At(rayEnd) - sphereCenter);
+        return 0.5 * Float3(surfaceNormal.X() + 1, surfaceNormal.Y() + 1, surfaceNormal.Z() + 1);
     }
 
     // Lerp between colors for background
-    const Double3 direction = Double3::Normalized(ray.Direction());
+    const Float3 direction = Float3::Normalized(ray.Direction());
     rayEnd = 0.5 * (direction.Y() + 1.0);
-    return (1.0 - rayEnd) * Double3(1.0, 1.0, 1.0) + (Double3(0.5, 0.7, 1.0) * rayEnd);
+    return (1.0 - rayEnd) * Float3(1.0, 1.0, 1.0) + (Float3(0.5, 0.7, 1.0) * rayEnd);
 }
 
 int main()
 {
-    constexpr double aspectRatio = 16.0 / 9.0;
+    constexpr float aspectRatio = 16.0 / 9.0;
 
     // Camera
-    constexpr double viewportHeight = 2.0;
-    constexpr double viewportWidth = viewportHeight * aspectRatio;
-    constexpr double focalLength = 1.0;
+    constexpr float viewportHeight = 2.0;
+    constexpr float viewportWidth = viewportHeight * aspectRatio;
+    constexpr float focalLength = 1.0;
 
-    const Double3 cameraOrigin(0.0, 0.0, 0.0);
-    const Double3 cameraLength(0.0, 0.0, focalLength);
+    const Float3 cameraOrigin(0.0, 0.0, 0.0);
+    const Float3 cameraLength(0.0, 0.0, focalLength);
 
-    const Double3 horizontalVector(viewportWidth, 0.0, 0.0);
-    const Double3 verticalVector(0.0, viewportHeight, 0.0);
-    const Double3 bottomLeft = cameraOrigin - horizontalVector / 2 - verticalVector / 2 - cameraLength;
+    const Float3 horizontalVector(viewportWidth, 0.0, 0.0);
+    const Float3 verticalVector(0.0, viewportHeight, 0.0);
+    const Float3 bottomLeft = cameraOrigin - horizontalVector / 2 - verticalVector / 2 - cameraLength;
 
     // Image
     constexpr int imageWidth = 400;
@@ -75,11 +75,11 @@ int main()
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < imageWidth; ++i)
         {
-            const double uComponent = static_cast<double>(i) / lastRowPixel;
-            const double vComponent = static_cast<double>(j) / lastColPixel;
+            const float uComponent = static_cast<float>(i) / lastRowPixel;
+            const float vComponent = static_cast<float>(j) / lastColPixel;
 
             const Ray ray(cameraOrigin, bottomLeft + uComponent * horizontalVector + vComponent * verticalVector - cameraOrigin);
-            Double3::WriteColor(std::cout, getRayColor(ray));
+            Float3::WriteColor(std::cout, getRayColor(ray));
         }
     }
 

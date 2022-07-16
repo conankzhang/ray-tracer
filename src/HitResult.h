@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Double3.h"
+#include "Float3.h"
 
 struct HitResult final
 {
-    Double3 m_ImpactLocation;
-    Double3 m_ImpactNormal;
-    double m_rayEnd = 0.0;
+    Float3 m_ImpactLocation;
+    Float3 m_ImpactNormal;
+    float m_rayEnd = 0.0;
 };
