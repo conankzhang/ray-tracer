@@ -4,7 +4,7 @@
 #include "Double3.inl"
 #include "Ray.h"
 
-bool rayCollidesWithSphere(const Ray& ray, const Double3& center, double radius)
+double rayCollidesWithSphere(const Ray& ray, const Double3& center, double radius)
 {
     const Double3 centerToOrigin = ray.Origin() - center;
 
@@ -14,22 +14,32 @@ bool rayCollidesWithSphere(const Ray& ray, const Double3& center, double radius)
     const double c = Double3::Dot(centerToOrigin, centerToOrigin) - radius * radius;
 
     const double discriminant = b * b - 4 * a * c;
-    return discriminant > 0;
+    if (discriminant < 0)
+    {
+        return -1.0;
+    }
+    else
+    {
+        return (-b - std::sqrt(discriminant)) / (2.0 * a);
+    }
 }
 
 Double3 getRayColor(const Ray& ray)
 {
     const Double3 sphereCenter = Double3(0.0, 0.0, -1.0);
     constexpr double sphereRadius = 0.5;
-    if (rayCollidesWithSphere(ray, sphereCenter, sphereRadius))
+
+    double length = rayCollidesWithSphere(ray, sphereCenter, sphereRadius);
+    if (length > 0.0)
     {
-        const Double3 red = Double3(1.0, 0.0, 0.0);
-        return red;
+        // Return normal map of sphere
+        const Double3 surfaceNormal = Double3::Normalized(ray.At(length) - sphereCenter);
+        return 0.5 * Double3(surfaceNormal.X() + 1, surfaceNormal.Y() + 1, surfaceNormal.Z() + 1);
     }
 
     // Lerp between colors for background
     const Double3 direction = Double3::Normalized(ray.Direction());
-    const double length = 0.5 * (direction.Y() + 1.0);
+    length = 0.5 * (direction.Y() + 1.0);
     return (1.0 - length) * Double3(1.0, 1.0, 1.0) + (Double3(0.5, 0.7, 1.0) * length);
 }
 
