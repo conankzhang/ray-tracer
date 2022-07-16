@@ -9,18 +9,18 @@ double rayCollidesWithSphere(const Ray& ray, const Double3& center, double radiu
     const Double3 centerToOrigin = ray.Origin() - center;
 
     // Quadratic Formula
-    const double a = Double3::Dot(ray.Direction(), ray.Direction());
-    const double b = 2.0 * Double3::Dot(centerToOrigin, ray.Direction());
-    const double c = Double3::Dot(centerToOrigin, centerToOrigin) - radius * radius;
+    const double a = ray.Direction().LengthSquared();
+    const double halfB = Double3::Dot(centerToOrigin, ray.Direction());
+    const double c = centerToOrigin.LengthSquared() - radius * radius;
 
-    const double discriminant = b * b - 4 * a * c;
+    const double discriminant = halfB * halfB - a * c;
     if (discriminant < 0)
     {
         return -1.0;
     }
     else
     {
-        return (-b - std::sqrt(discriminant)) / (2.0 * a);
+        return (-halfB - std::sqrt(discriminant)) / a;
     }
 }
 
