@@ -7,7 +7,7 @@ class Float3 final
 {
 public:
     Float3()
-        : m_Components{0, 0, 0}
+        : m_Components{0.0f, 0.0f, 0.0f}
     {
     }
 

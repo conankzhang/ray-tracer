@@ -17,5 +17,5 @@ public:
 
 private:
     Float3 m_Center;
-    float m_Radius = 0.0;
+    float m_Radius = 0.0f;
 };

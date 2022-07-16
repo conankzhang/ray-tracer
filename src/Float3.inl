@@ -27,7 +27,7 @@ inline Float3 operator*(float multiplier, const Float3& vector)
 
 inline Float3 operator/(const Float3& vector, float divisor)
 {
-    return vector * (1 / divisor);
+    return vector * (1.0f / divisor);
 }
 
 inline float Float3::X() const
@@ -95,7 +95,7 @@ inline Float3& Float3::operator*=(float multiplier)
 
 inline Float3& Float3::operator/=(float divisor)
 {
-    return *this *= 1 / divisor;
+    return *this *= 1.0f / divisor;
 }
 
 inline float Float3::LengthSquared() const
@@ -132,9 +132,9 @@ inline void Float3::PrintVector(std::ostream& ostream, const Float3& vector)
 
 inline void Float3::WriteColor(std::ostream& ostream, const Float3& color)
 {
-    const int redInt = static_cast<int>(255.999 * color.R());
-    const int greenInt = static_cast<int>(255.999 * color.G());
-    const int blueInt = static_cast<int>(255.999 * color.B());
+    const int redInt = static_cast<int>(255.999f * color.R());
+    const int greenInt = static_cast<int>(255.999f * color.G());
+    const int blueInt = static_cast<int>(255.999f * color.B());
 
     ostream << redInt << ' ' << greenInt << ' ' << blueInt << '\n';
 }

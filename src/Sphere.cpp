@@ -15,7 +15,7 @@ bool Sphere::Trace(const Ray& ray, float rayStart, float rayEnd, HitResult& outR
     const float c = centerToOrigin.LengthSquared() - m_Radius * m_Radius;
 
     const float discriminant = halfB * halfB - a * c;
-    if (discriminant < 0)
+    if (discriminant < 0.0f)
     {
         return false;
     }

@@ -14,9 +14,9 @@ float rayCollidesWithSphere(const Ray& ray, const Float3& center, float radius)
     const float c = centerToOrigin.LengthSquared() - radius * radius;
 
     const float discriminant = halfB * halfB - a * c;
-    if (discriminant < 0)
+    if (discriminant < 0.0f)
     {
-        return -1.0;
+        return -1.0f;
     }
     else
     {
@@ -26,38 +26,38 @@ float rayCollidesWithSphere(const Ray& ray, const Float3& center, float radius)
 
 Float3 getRayColor(const Ray& ray)
 {
-    const Float3 sphereCenter = Float3(0.0, 0.0, -1.0);
-    constexpr float sphereRadius = 0.5;
+    const Float3 sphereCenter = Float3(0.0f, 0.0f, -1.0f);
+    constexpr float sphereRadius = 0.5f;
 
     float rayEnd = rayCollidesWithSphere(ray, sphereCenter, sphereRadius);
-    if (rayEnd > 0.0)
+    if (rayEnd > 0.0f)
     {
         // Return normal map of sphere
         const Float3 surfaceNormal = Float3::Normalized(ray.At(rayEnd) - sphereCenter);
-        return 0.5 * Float3(surfaceNormal.X() + 1, surfaceNormal.Y() + 1, surfaceNormal.Z() + 1);
+        return 0.5f * Float3(surfaceNormal.X() + 1.0f, surfaceNormal.Y() + 1.0f, surfaceNormal.Z() + 1.0f);
     }
 
     // Lerp between colors for background
     const Float3 direction = Float3::Normalized(ray.Direction());
-    rayEnd = 0.5 * (direction.Y() + 1.0);
-    return (1.0 - rayEnd) * Float3(1.0, 1.0, 1.0) + (Float3(0.5, 0.7, 1.0) * rayEnd);
+    rayEnd = 0.5f * (direction.Y() + 1.0f);
+    return (1.0f - rayEnd) * Float3(1.0f, 1.0f, 1.0f) + (Float3(0.5f, 0.7f, 1.0f) * rayEnd);
 }
 
 int main()
 {
-    constexpr float aspectRatio = 16.0 / 9.0;
+    constexpr float aspectRatio = 16.0f / 9.0f;
 
     // Camera
-    constexpr float viewportHeight = 2.0;
+    constexpr float viewportHeight = 2.0f;
     constexpr float viewportWidth = viewportHeight * aspectRatio;
-    constexpr float focalLength = 1.0;
+    constexpr float focalLength = 1.0f;
 
-    const Float3 cameraOrigin(0.0, 0.0, 0.0);
-    const Float3 cameraLength(0.0, 0.0, focalLength);
+    const Float3 cameraOrigin(0.0f, 0.0f, 0.0f);
+    const Float3 cameraLength(0.0f, 0.0f, focalLength);
 
-    const Float3 horizontalVector(viewportWidth, 0.0, 0.0);
-    const Float3 verticalVector(0.0, viewportHeight, 0.0);
-    const Float3 bottomLeft = cameraOrigin - horizontalVector / 2 - verticalVector / 2 - cameraLength;
+    const Float3 horizontalVector(viewportWidth, 0.0f, 0.0f);
+    const Float3 verticalVector(0.0f, viewportHeight, 0.0f);
+    const Float3 bottomLeft = cameraOrigin - horizontalVector / 2.0f - verticalVector / 2.0f - cameraLength;
 
     // Image
     constexpr int imageWidth = 400;
