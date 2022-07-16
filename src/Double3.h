@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iostream>
 
-class Double3
+class Double3 final
 {
 public:
     Double3()

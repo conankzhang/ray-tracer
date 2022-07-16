@@ -2,7 +2,7 @@
 
 #include "Double3.h"
 
-class Ray
+class Ray final
 {
 public:
     Ray()
@@ -17,7 +17,7 @@ public:
 
     const Double3& Origin() const;
     const Double3& Direction() const;
-    Double3 At(double length) const;
+    Double3 At(double rayEnd) const;
 
 private:
     Double3 m_Origin;

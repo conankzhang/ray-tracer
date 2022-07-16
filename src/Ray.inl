@@ -10,7 +10,7 @@ const Double3& Ray::Direction() const
     return m_Direction;
 }
 
-Double3 Ray::At(double length) const
+Double3 Ray::At(double rayEnd) const
 {
-    return m_Origin + (m_Direction * length);
+    return m_Origin + (m_Direction * rayEnd);
 }

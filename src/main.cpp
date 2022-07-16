@@ -29,18 +29,18 @@ Double3 getRayColor(const Ray& ray)
     const Double3 sphereCenter = Double3(0.0, 0.0, -1.0);
     constexpr double sphereRadius = 0.5;
 
-    double length = rayCollidesWithSphere(ray, sphereCenter, sphereRadius);
-    if (length > 0.0)
+    double rayEnd = rayCollidesWithSphere(ray, sphereCenter, sphereRadius);
+    if (rayEnd > 0.0)
     {
         // Return normal map of sphere
-        const Double3 surfaceNormal = Double3::Normalized(ray.At(length) - sphereCenter);
+        const Double3 surfaceNormal = Double3::Normalized(ray.At(rayEnd) - sphereCenter);
         return 0.5 * Double3(surfaceNormal.X() + 1, surfaceNormal.Y() + 1, surfaceNormal.Z() + 1);
     }
 
     // Lerp between colors for background
     const Double3 direction = Double3::Normalized(ray.Direction());
-    length = 0.5 * (direction.Y() + 1.0);
-    return (1.0 - length) * Double3(1.0, 1.0, 1.0) + (Double3(0.5, 0.7, 1.0) * length);
+    rayEnd = 0.5 * (direction.Y() + 1.0);
+    return (1.0 - rayEnd) * Double3(1.0, 1.0, 1.0) + (Double3(0.5, 0.7, 1.0) * rayEnd);
 }
 
 int main()
