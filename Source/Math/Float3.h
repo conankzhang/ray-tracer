@@ -38,9 +38,12 @@ public:
 
     static float Dot(const Float3& left, const Float3& right);
     static Float3 Cross(const Float3& left, const Float3& right);
+
     static Float3 Normalized(const Float3& vector);
     static bool IsNearZero(const Float3& vector);
+
     static Float3 Reflect(const Float3& vector, const Float3& normal);
+    static Float3 Refract(const Float3& vector, const Float3& normal, float eta);
 
 private:
     float m_Components[3];

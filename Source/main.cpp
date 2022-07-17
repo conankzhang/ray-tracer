@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Camera/Camera.h"
+#include "Materials/Dielectric.h"
 #include "Materials/Lambertian.h"
 #include "Materials/Metal.h"
 #include "Math/Float3.h"
@@ -75,16 +76,16 @@ int main()
     // World
     TraceableList world;
 
-    const std::shared_ptr<Lambertian> groundMaterial = std::make_shared<Lambertian>(Float3(0.8f, 0.8f, 0.0f));
+    const auto groundMaterial = std::make_shared<Lambertian>(Float3(0.8f, 0.8f, 0.0f));
     world.Add(std::make_shared<Sphere>(Float3(0.0f, -100.5f, -1.0f), 100.0f, groundMaterial));
 
-    const std::shared_ptr<Lambertian> centerMaterial = std::make_shared<Lambertian>(Float3(0.7f, 0.3f, 0.3f));
+    const auto centerMaterial = std::make_shared<Dielectric>(1.5f);
     world.Add(std::make_shared<Sphere>(Float3(0.0f, 0.0f, -1.0f), 0.5f, centerMaterial));
 
-    const std::shared_ptr<Metal> leftMaterial = std::make_shared<Metal>(Float3(0.8f, 0.8f, 0.8f), 0.3f);
+    const auto leftMaterial = std::make_shared<Dielectric>(1.5f);
     world.Add(std::make_shared<Sphere>(Float3(-1.0f, 0.0f, -1.0f), 0.5f, leftMaterial));
 
-    const std::shared_ptr<Metal> rightMaterial = std::make_shared<Metal>(Float3(0.8f, 0.6f, 0.2f), 1.0f);
+    const auto rightMaterial = std::make_shared<Metal>(Float3(0.8f, 0.6f, 0.2f), 1.0f);
     world.Add(std::make_shared<Sphere>(Float3(1.0f, 0.0f, -1.0f), 0.5f, rightMaterial));
 
     // Render

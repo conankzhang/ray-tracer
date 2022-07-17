@@ -16,7 +16,7 @@ struct HitResult final
 
     std::shared_ptr<Material> m_Material;
     float m_rayEnd = 0.0f;
-    bool m_ImpactIsOutside = false;
+    bool m_IsImpactOutside = false;
 };
 
 #include "HitResult.inl"

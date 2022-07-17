@@ -138,3 +138,11 @@ inline Float3 Float3::Reflect(const Float3& vector, const Float3& normal)
 {
     return vector - 2.0f * Dot(vector, normal) * normal;
 }
+
+inline Float3 Float3::Refract(const Float3& vector, const Float3& normal, float eta)
+{
+    const float cosTheta = std::fmin(Dot(-vector, normal), 1.0f);
+    const Float3 refractPerpendicularComponent = eta * (vector + cosTheta * normal);
+    const Float3 refractParallelComponent = -std::sqrt(std::fabs(1.0f - refractPerpendicularComponent.LengthSquared())) * normal;
+    return refractPerpendicularComponent + refractParallelComponent;
+}
