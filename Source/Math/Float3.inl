@@ -136,9 +136,9 @@ inline void Float3::WriteColor(std::ostream& ostream, const Float3& color, int s
 {
     const float scale = 1.0f / samplesPerPixel;
 
-    const float red = color.R() * scale;
-    const float green = color.G() * scale;
-    const float blue = color.B() * scale;
+    const float red = std::sqrt(color.R() * scale);
+    const float green = std::sqrt(color.G() * scale);
+    const float blue = std::sqrt(color.B() * scale);
 
     const int redInt = static_cast<int>(256 * Math::Clamp(red, 0.0f, 0.999f));
     const int greenInt = static_cast<int>(256 * Math::Clamp(green, 0.0f, 0.999f));

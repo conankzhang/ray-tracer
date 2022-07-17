@@ -28,12 +28,17 @@ inline Float3 Math::RandomFloat3InUnitSphere()
 {
     while (true)
     {
-        const Float3 randomFloat3 = RandomFloat3(-1, 1);
-        if (randomFloat3.LengthSquared() >= 1)
+        const Float3 randomFloat3 = RandomFloat3(-1.0f, 1.0f);
+        if (randomFloat3.LengthSquared() >= 1.0f)
         {
             continue;
         }
 
         return randomFloat3;
     }
+}
+
+inline Float3 Math::RandomUnitVector()
+{
+    return Float3::Normalized(RandomFloat3InUnitSphere());
 }

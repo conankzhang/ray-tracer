@@ -9,13 +9,21 @@
 #include "Trace/HitResult.h"
 #include "Trace/TraceableList.h"
 
-Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world)
+Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world, int depth)
 {
-    HitResult result;
-
-    if (world.Trace(ray, 0.0f, Math::s_Infinity, result))
+    if (depth <= 0)
     {
-        return 0.5f * (result.m_ImpactNormal + Float3(1.0f, 1.0f, 1.0f));
+        // Guard against stack overflow
+        return Float3(0.0f, 0.0f, 0.0f);
+    }
+
+    HitResult result;
+    if (world.Trace(ray, 0.001f, Math::s_Infinity, result))
+    {
+        const Float3 diffusePoint = result.m_ImpactLocation + result.m_ImpactNormal + Math::RandomUnitVector();
+        const Ray diffuseRay = Ray(result.m_ImpactLocation, diffusePoint - result.m_ImpactLocation);
+
+        return 0.5f * getRayColorFromWorld(diffuseRay, world, depth - 1);
     }
 
     // Lerp between colors for background
@@ -36,6 +44,7 @@ int main()
     constexpr int lastRowPixel = imageWidth - 1;
     constexpr int lastColPixel = imageHeight - 1;
     constexpr int samplesPerPixel = 100;
+    constexpr int maxBounceDepth = 50;
 
     // World
     TraceableList world;
@@ -60,7 +69,7 @@ int main()
                 const float v = static_cast<float>(j + Math::RandomFloat()) / lastColPixel;
 
                 const Ray cameraRay = camera.GetRayForPixel(u, v);
-                pixelColor += getRayColorFromWorld(cameraRay, world);
+                pixelColor += getRayColorFromWorld(cameraRay, world, maxBounceDepth);
             }
 
             Float3::WriteColor(std::cout, pixelColor, samplesPerPixel);
