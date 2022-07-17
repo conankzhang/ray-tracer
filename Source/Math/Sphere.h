@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Traceable.h"
+#include "Trace/Traceable.h"
 
 #include "Float3.h"
 

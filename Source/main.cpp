@@ -1,12 +1,11 @@
 #include <iostream>
 
-#include "Float3.h"
-#include "Float3.inl"
-#include "HitResult.h"
-#include "Math.h"
-#include "Ray.h"
-#include "Sphere.h"
-#include "TraceableList.h"
+#include "Math/Float3.h"
+#include "Math/Math.h"
+#include "Math/Ray.h"
+#include "Math/Sphere.h"
+#include "Trace/HitResult.h"
+#include "Trace/TraceableList.h"
 
 Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world)
 {

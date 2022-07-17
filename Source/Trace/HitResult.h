@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Float3.h"
+#include "Math/Float3.h"
 
 class Ray;
 

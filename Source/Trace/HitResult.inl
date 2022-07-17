@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ray.h"
+#include "Math/Ray.h"
 
 inline void HitResult::SetImpactNormal(const Float3& outsideNormal, const Ray& ray)
 {

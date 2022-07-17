@@ -2,8 +2,8 @@
 
 #include <cmath>
 
-#include "HitResult.h"
 #include "Ray.h"
+#include "Trace/HitResult.h"
 
 bool Sphere::Trace(const Ray& ray, float rayStart, float rayEnd, HitResult& outResult) const
 {
