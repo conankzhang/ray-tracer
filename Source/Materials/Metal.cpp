@@ -14,5 +14,6 @@ bool Metal::ScatterRay(const Ray& incidentRay, const HitResult& hitResult, Float
     scatteredRay = Ray(hitResult.m_ImpactLocation, reflectedDirection);
     rayAttenuation = m_Albedo;
 
-    return Float3::Dot(scatteredRay.Direction(), hitResult.m_ImpactNormal) > 0.0f;
+    const float dotResult = Float3::Dot(scatteredRay.Direction(), hitResult.m_ImpactNormal);
+    return dotResult > 0.0f;
 }

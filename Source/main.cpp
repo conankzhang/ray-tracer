@@ -44,7 +44,6 @@ Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world, int dept
     {
         Ray scatteredRay;
         Float3 attenuation;
-
         if (result.m_Material->ScatterRay(ray, result, attenuation, scatteredRay))
         {
             return attenuation * getRayColorFromWorld(scatteredRay, world, depth - 1);
@@ -73,14 +72,20 @@ int main()
     constexpr int samplesPerPixel = 100;
     constexpr int maxBounceDepth = 50;
 
-    // Materials
-    std::shared_ptr<Lambertian> groundMaterial = std::make_shared<Lambertian>(Float3(0.8f, 0.8f, 0.0f));
-    std::shared_ptr<Metal> centerMaterial = std::make_shared<Metal>(Float3(0.7f, 0.3f, 0.3f));
-
     // World
     TraceableList world;
-    world.Add(std::make_shared<Sphere>(Float3(0.0f, 0.0f, -1.0f), 0.5f, groundMaterial));
-    world.Add(std::make_shared<Sphere>(Float3(0.0f, -100.5f, -1.0f), 100.0f, centerMaterial));
+
+    const std::shared_ptr<Lambertian> groundMaterial = std::make_shared<Lambertian>(Float3(0.8f, 0.8f, 0.0f));
+    world.Add(std::make_shared<Sphere>(Float3(0.0f, -100.5f, -1.0f), 100.0f, groundMaterial));
+
+    const std::shared_ptr<Lambertian> centerMaterial = std::make_shared<Lambertian>(Float3(0.7f, 0.3f, 0.3f));
+    world.Add(std::make_shared<Sphere>(Float3(0.0f, 0.0f, -1.0f), 0.5f, centerMaterial));
+
+    const std::shared_ptr<Metal> leftMaterial = std::make_shared<Metal>(Float3(0.8f, 0.8f, 0.8f));
+    world.Add(std::make_shared<Sphere>(Float3(-1.0f, 0.0f, -1.0f), 0.5f, leftMaterial));
+
+    const std::shared_ptr<Metal> rightMaterial = std::make_shared<Metal>(Float3(0.8f, 0.6f, 0.2f));
+    world.Add(std::make_shared<Sphere>(Float3(1.0f, 0.0f, -1.0f), 0.5f, rightMaterial));
 
     // Render
     std::cout
