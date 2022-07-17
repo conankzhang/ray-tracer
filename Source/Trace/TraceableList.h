@@ -5,7 +5,7 @@
 
 #include "Traceable.h"
 
-class TraceableList : public Traceable
+class TraceableList final : public Traceable
 {
 public:
     void Clear();

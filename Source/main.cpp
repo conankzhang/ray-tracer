@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Camera/Camera.h"
+#include "Materials/Lambertian.h"
 #include "Math/Float3.h"
 #include "Math/Math.h"
 #include "Math/Random.h"
@@ -20,10 +21,15 @@ Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world, int dept
     HitResult result;
     if (world.Trace(ray, 0.001f, Math::s_Infinity, result))
     {
-        const Float3 diffusePoint = result.m_ImpactLocation + result.m_ImpactNormal + Math::RandomFloat3InHemisphere(result.m_ImpactNormal);
-        const Ray diffuseRay = Ray(result.m_ImpactLocation, diffusePoint - result.m_ImpactLocation);
+        Ray scatteredRay;
+        Float3 attenuation;
 
-        return 0.5f * getRayColorFromWorld(diffuseRay, world, depth - 1);
+        if (result.m_Material->Scatter(ray, result, attenuation, scatteredRay))
+        {
+            return attenuation * getRayColorFromWorld(scatteredRay, world, depth - 1);
+        }
+
+        return Float3(0.0f, 0.0f, 0.0f);
     }
 
     // Lerp between colors for background
@@ -46,10 +52,13 @@ int main()
     constexpr int samplesPerPixel = 100;
     constexpr int maxBounceDepth = 50;
 
+    // Materials
+    std::shared_ptr<Lambertian> groundMaterial = std::make_shared<Lambertian>(Float3(0.8f, 0.8f, 0.0f));
+
     // World
     TraceableList world;
-    world.Add(std::make_shared<Sphere>(Float3(0.0f, 0.0f, -1.0f), 0.5f));
-    world.Add(std::make_shared<Sphere>(Float3(0.0f, -100.5f, -1.0f), 100.0f));
+    world.Add(std::make_shared<Sphere>(Float3(0.0f, 0.0f, -1.0f), 0.5f, groundMaterial));
+    world.Add(std::make_shared<Sphere>(Float3(0.0f, -100.5f, -1.0f), 100.0f, groundMaterial));
 
     // Render
     std::cout

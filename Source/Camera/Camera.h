@@ -3,7 +3,7 @@
 #include "Math/Float3.h"
 #include "Math/Ray.h"
 
-class Camera
+class Camera final
 {
 public:
     Camera(float aspectRatio);

@@ -37,6 +37,7 @@ bool Sphere::Trace(const Ray& ray, float rayStart, float rayEnd, HitResult& outR
     outResult.m_ImpactLocation = ray.At(outResult.m_rayEnd);
     const Float3 outsideNormal = (outResult.m_ImpactLocation - m_Center) / m_Radius;
     outResult.SetImpactNormal(outsideNormal, ray);
+    outResult.m_Material = m_Material;
 
     return true;
 }

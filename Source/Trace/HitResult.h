@@ -1,7 +1,10 @@
 #pragma once
 
+#include <memory>
+
 #include "Math/Float3.h"
 
+class Material;
 class Ray;
 
 struct HitResult final
@@ -10,6 +13,8 @@ struct HitResult final
 
     Float3 m_ImpactLocation;
     Float3 m_ImpactNormal;
+
+    std::shared_ptr<Material> m_Material;
     float m_rayEnd = 0.0f;
     bool m_ImpactIsOutside = false;
 };

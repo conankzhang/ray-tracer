@@ -127,6 +127,14 @@ inline Float3 Float3::Normalized(const Float3& vector)
     return vector / vector.Length();
 }
 
+inline bool Float3::IsNearZero(const Float3& vector)
+{
+    constexpr float epsilon = 1e-8;
+    return std::fabs(vector.X()) < epsilon &&
+           std::fabs(vector.Y()) < epsilon &&
+           std::fabs(vector.Z()) < epsilon;
+}
+
 inline void Float3::PrintVector(std::ostream& ostream, const Float3& vector)
 {
     ostream << "X: " << vector.X() << " Y: " << vector.Y() << " Z: " << vector.Z();

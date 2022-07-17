@@ -39,6 +39,7 @@ public:
     static float Dot(const Float3& left, const Float3& right);
     static Float3 Cross(const Float3& left, const Float3& right);
     static Float3 Normalized(const Float3& vector);
+    static bool IsNearZero(const Float3& vector);
 
     static void PrintVector(std::ostream& ostream, const Float3& vector);
     static void WriteColor(std::ostream& ostream, const Float3& color, int sampleCount);
