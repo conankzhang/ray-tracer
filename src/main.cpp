@@ -2,44 +2,24 @@
 
 #include "Float3.h"
 #include "Float3.inl"
+#include "HitResult.h"
+#include "Math.h"
 #include "Ray.h"
+#include "Sphere.h"
+#include "TraceableList.h"
 
-float rayCollidesWithSphere(const Ray& ray, const Float3& center, float radius)
+Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world)
 {
-    const Float3 centerToOrigin = ray.Origin() - center;
+    HitResult result;
 
-    // Quadratic Formula
-    const float a = ray.Direction().LengthSquared();
-    const float halfB = Float3::Dot(centerToOrigin, ray.Direction());
-    const float c = centerToOrigin.LengthSquared() - radius * radius;
-
-    const float discriminant = halfB * halfB - a * c;
-    if (discriminant < 0.0f)
+    if (world.Trace(ray, 0.0f, Math::s_Infinity, result))
     {
-        return -1.0f;
-    }
-    else
-    {
-        return (-halfB - std::sqrt(discriminant)) / a;
-    }
-}
-
-Float3 getRayColor(const Ray& ray)
-{
-    const Float3 sphereCenter = Float3(0.0f, 0.0f, -1.0f);
-    constexpr float sphereRadius = 0.5f;
-
-    float rayEnd = rayCollidesWithSphere(ray, sphereCenter, sphereRadius);
-    if (rayEnd > 0.0f)
-    {
-        // Return normal map of sphere
-        const Float3 surfaceNormal = Float3::Normalized(ray.At(rayEnd) - sphereCenter);
-        return 0.5f * Float3(surfaceNormal.X() + 1.0f, surfaceNormal.Y() + 1.0f, surfaceNormal.Z() + 1.0f);
+        return 0.5f * (result.m_ImpactNormal + Float3(1.0f, 1.0f, 1.0f));
     }
 
     // Lerp between colors for background
     const Float3 direction = Float3::Normalized(ray.Direction());
-    rayEnd = 0.5f * (direction.Y() + 1.0f);
+    const float rayEnd = 0.5f * (direction.Y() + 1.0f);
     return (1.0f - rayEnd) * Float3(1.0f, 1.0f, 1.0f) + (Float3(0.5f, 0.7f, 1.0f) * rayEnd);
 }
 
@@ -65,10 +45,16 @@ int main()
     constexpr int lastRowPixel = imageWidth - 1;
     constexpr int lastColPixel = imageHeight - 1;
 
+    // World
+    TraceableList world;
+    world.Add(std::make_shared<Sphere>(Float3(0.0f, 0.0f, -1.0f), 0.5f));
+    world.Add(std::make_shared<Sphere>(Float3(0.0f, -100.5f, -1.0f), 100.0f));
+
     // Render
-    std::cout << "P3\n"
-              << imageWidth << ' '
-              << imageHeight << "\n255\n";
+    std::cout
+        << "P3\n"
+        << imageWidth << ' '
+        << imageHeight << "\n255\n";
 
     for (int j = lastColPixel; j >= 0; --j)
     {
@@ -79,7 +65,7 @@ int main()
             const float vComponent = static_cast<float>(j) / lastColPixel;
 
             const Ray ray(cameraOrigin, bottomLeft + uComponent * horizontalVector + vComponent * verticalVector - cameraOrigin);
-            Float3::WriteColor(std::cout, getRayColor(ray));
+            Float3::WriteColor(std::cout, getRayColorFromWorld(ray, world));
         }
     }
 
