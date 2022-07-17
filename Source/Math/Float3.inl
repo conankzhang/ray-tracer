@@ -134,23 +134,3 @@ inline bool Float3::IsNearZero(const Float3& vector)
            std::fabs(vector.Y()) < epsilon &&
            std::fabs(vector.Z()) < epsilon;
 }
-
-inline void Float3::PrintVector(std::ostream& ostream, const Float3& vector)
-{
-    ostream << "X: " << vector.X() << " Y: " << vector.Y() << " Z: " << vector.Z();
-}
-
-inline void Float3::WriteColor(std::ostream& ostream, const Float3& color, int samplesPerPixel)
-{
-    const float scale = 1.0f / samplesPerPixel;
-
-    const float red = std::sqrt(color.R() * scale);
-    const float green = std::sqrt(color.G() * scale);
-    const float blue = std::sqrt(color.B() * scale);
-
-    const int redInt = static_cast<int>(256 * Math::Clamp(red, 0.0f, 0.999f));
-    const int greenInt = static_cast<int>(256 * Math::Clamp(green, 0.0f, 0.999f));
-    const int blueInt = static_cast<int>(256 * Math::Clamp(blue, 0.0f, 0.999f));
-
-    ostream << redInt << ' ' << greenInt << ' ' << blueInt << '\n';
-}

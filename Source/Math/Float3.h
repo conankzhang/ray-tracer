@@ -41,9 +41,6 @@ public:
     static Float3 Normalized(const Float3& vector);
     static bool IsNearZero(const Float3& vector);
 
-    static void PrintVector(std::ostream& ostream, const Float3& vector);
-    static void WriteColor(std::ostream& ostream, const Float3& color, int sampleCount);
-
 private:
     float m_Components[3];
 };

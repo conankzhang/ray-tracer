@@ -10,6 +10,26 @@
 #include "Trace/HitResult.h"
 #include "Trace/TraceableList.h"
 
+void PrintVector(std::ostream& ostream, const Float3& vector)
+{
+    ostream << "X: " << vector.X() << " Y: " << vector.Y() << " Z: " << vector.Z();
+}
+
+void WriteColor(std::ostream& ostream, const Float3& color, int samplesPerPixel)
+{
+    const float scale = 1.0f / samplesPerPixel;
+
+    const float red = std::sqrt(color.R() * scale);
+    const float green = std::sqrt(color.G() * scale);
+    const float blue = std::sqrt(color.B() * scale);
+
+    const int redInt = static_cast<int>(256 * Math::Clamp(red, 0.0f, 0.999f));
+    const int greenInt = static_cast<int>(256 * Math::Clamp(green, 0.0f, 0.999f));
+    const int blueInt = static_cast<int>(256 * Math::Clamp(blue, 0.0f, 0.999f));
+
+    ostream << redInt << ' ' << greenInt << ' ' << blueInt << '\n';
+}
+
 Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world, int depth)
 {
     if (depth <= 0)
@@ -24,7 +44,7 @@ Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world, int dept
         Ray scatteredRay;
         Float3 attenuation;
 
-        if (result.m_Material->Scatter(ray, result, attenuation, scatteredRay))
+        if (result.m_Material->ScatterRay(ray, result, attenuation, scatteredRay))
         {
             return attenuation * getRayColorFromWorld(scatteredRay, world, depth - 1);
         }
@@ -81,7 +101,7 @@ int main()
                 pixelColor += getRayColorFromWorld(cameraRay, world, maxBounceDepth);
             }
 
-            Float3::WriteColor(std::cout, pixelColor, samplesPerPixel);
+            WriteColor(std::cout, pixelColor, samplesPerPixel);
         }
     }
 

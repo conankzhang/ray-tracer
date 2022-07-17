@@ -8,7 +8,7 @@ Lambertian::Lambertian(const Float3& albedo)
 {
 }
 
-bool Lambertian::Scatter(const Ray& incidentRay, const HitResult& hitResult, Float3& rayAttenuation, Ray& scatteredRay) const
+bool Lambertian::ScatterRay(const Ray& incidentRay, const HitResult& hitResult, Float3& rayAttenuation, Ray& scatteredRay) const
 {
     Float3 scatterDirection = hitResult.m_ImpactNormal + Math::RandomFloat3InHemisphere(hitResult.m_ImpactNormal);
 
