@@ -1,7 +1,9 @@
 #include <iostream>
 
+#include "Camera/Camera.h"
 #include "Math/Float3.h"
 #include "Math/Math.h"
+#include "Math/Random.h"
 #include "Math/Ray.h"
 #include "Math/Sphere.h"
 #include "Trace/HitResult.h"
@@ -26,23 +28,14 @@ int main()
 {
     constexpr float aspectRatio = 16.0f / 9.0f;
 
-    // Camera
-    constexpr float viewportHeight = 2.0f;
-    constexpr float viewportWidth = viewportHeight * aspectRatio;
-    constexpr float focalLength = 1.0f;
-
-    const Float3 cameraOrigin(0.0f, 0.0f, 0.0f);
-    const Float3 cameraLength(0.0f, 0.0f, focalLength);
-
-    const Float3 horizontalVector(viewportWidth, 0.0f, 0.0f);
-    const Float3 verticalVector(0.0f, viewportHeight, 0.0f);
-    const Float3 bottomLeft = cameraOrigin - horizontalVector / 2.0f - verticalVector / 2.0f - cameraLength;
+    const Camera camera(aspectRatio);
 
     // Image
     constexpr int imageWidth = 400;
     constexpr int imageHeight = static_cast<int>(imageWidth / aspectRatio);
     constexpr int lastRowPixel = imageWidth - 1;
     constexpr int lastColPixel = imageHeight - 1;
+    constexpr int samplesPerPixel = 100;
 
     // World
     TraceableList world;
@@ -60,11 +53,17 @@ int main()
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < imageWidth; ++i)
         {
-            const float uComponent = static_cast<float>(i) / lastRowPixel;
-            const float vComponent = static_cast<float>(j) / lastColPixel;
+            Float3 pixelColor(0.0f, 0.0f, 0.0f);
+            for (int sample = 0; sample < samplesPerPixel; ++sample)
+            {
+                const float u = static_cast<float>(i + Math::RandomFloat()) / lastRowPixel;
+                const float v = static_cast<float>(j + Math::RandomFloat()) / lastColPixel;
 
-            const Ray ray(cameraOrigin, bottomLeft + uComponent * horizontalVector + vComponent * verticalVector - cameraOrigin);
-            Float3::WriteColor(std::cout, getRayColorFromWorld(ray, world));
+                const Ray cameraRay = camera.GetRayForPixel(u, v);
+                pixelColor += getRayColorFromWorld(cameraRay, world);
+            }
+
+            Float3::WriteColor(std::cout, pixelColor, samplesPerPixel);
         }
     }
 

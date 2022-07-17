@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Math.h"
+
 inline Float3 operator+(const Float3& left, const Float3& right)
 {
     return Float3(left.X() + right.X(), left.Y() + right.Y(), left.Z() + right.Z());
@@ -130,11 +132,17 @@ inline void Float3::PrintVector(std::ostream& ostream, const Float3& vector)
     ostream << "X: " << vector.X() << " Y: " << vector.Y() << " Z: " << vector.Z();
 }
 
-inline void Float3::WriteColor(std::ostream& ostream, const Float3& color)
+inline void Float3::WriteColor(std::ostream& ostream, const Float3& color, int samplesPerPixel)
 {
-    const int redInt = static_cast<int>(255.999f * color.R());
-    const int greenInt = static_cast<int>(255.999f * color.G());
-    const int blueInt = static_cast<int>(255.999f * color.B());
+    const float scale = 1.0f / samplesPerPixel;
+
+    const float red = color.R() * scale;
+    const float green = color.G() * scale;
+    const float blue = color.B() * scale;
+
+    const int redInt = static_cast<int>(256 * Math::Clamp(red, 0.0f, 0.999f));
+    const int greenInt = static_cast<int>(256 * Math::Clamp(green, 0.0f, 0.999f));
+    const int blueInt = static_cast<int>(256 * Math::Clamp(blue, 0.0f, 0.999f));
 
     ostream << redInt << ' ' << greenInt << ' ' << blueInt << '\n';
 }
