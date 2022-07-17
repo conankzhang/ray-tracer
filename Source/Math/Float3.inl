@@ -129,8 +129,12 @@ inline Float3 Float3::Normalized(const Float3& vector)
 
 inline bool Float3::IsNearZero(const Float3& vector)
 {
-    constexpr float epsilon = 1e-8;
-    return std::fabs(vector.X()) < epsilon &&
-           std::fabs(vector.Y()) < epsilon &&
-           std::fabs(vector.Z()) < epsilon;
+    return std::fabs(vector.X()) < Math::s_Epsilon &&
+           std::fabs(vector.Y()) < Math::s_Epsilon &&
+           std::fabs(vector.Z()) < Math::s_Epsilon;
+}
+
+inline Float3 Float3::Reflect(const Float3& vector, const Float3& normal)
+{
+    return vector - 2.0f * Dot(vector, normal) * normal;
 }
