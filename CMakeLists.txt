@@ -3,7 +3,7 @@ project(ray-tracer CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-file(GLOB SOURCE_FILES ./src/*.cpp)
+file(GLOB SOURCE_FILES ./Source/*.cpp)
 
 add_executable(ray-tracer ${SOURCE_FILES})
 
