@@ -38,6 +38,19 @@ inline Float3 Math::RandomFloat3InUnitSphere()
     }
 }
 
+inline Float3 Math::RandomFloat3InHemisphere(const Float3& normal)
+{
+    const Float3 randomFloat3 = Math::RandomFloat3InUnitSphere();
+    if (Float3::Dot(randomFloat3, normal) > 0.0f)
+    {
+        return randomFloat3;
+    }
+    else
+    {
+        return -randomFloat3;
+    }
+}
+
 inline Float3 Math::RandomUnitVector()
 {
     return Float3::Normalized(RandomFloat3InUnitSphere());

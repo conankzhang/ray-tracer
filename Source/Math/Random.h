@@ -10,6 +10,7 @@ namespace Math
     static Float3 RandomFloat3();
     static Float3 RandomFloat3(float min, float max);
     static Float3 RandomFloat3InUnitSphere();
+    static Float3 RandomFloat3InHemisphere(const Float3& normal);
     static Float3 RandomUnitVector();
 
 } // namespace Math

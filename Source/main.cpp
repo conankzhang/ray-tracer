@@ -20,7 +20,7 @@ Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world, int dept
     HitResult result;
     if (world.Trace(ray, 0.001f, Math::s_Infinity, result))
     {
-        const Float3 diffusePoint = result.m_ImpactLocation + result.m_ImpactNormal + Math::RandomUnitVector();
+        const Float3 diffusePoint = result.m_ImpactLocation + result.m_ImpactNormal + Math::RandomFloat3InHemisphere(result.m_ImpactNormal);
         const Ray diffuseRay = Ray(result.m_ImpactLocation, diffusePoint - result.m_ImpactLocation);
 
         return 0.5f * getRayColorFromWorld(diffuseRay, world, depth - 1);
