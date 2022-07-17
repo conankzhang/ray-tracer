@@ -81,10 +81,10 @@ int main()
     const std::shared_ptr<Lambertian> centerMaterial = std::make_shared<Lambertian>(Float3(0.7f, 0.3f, 0.3f));
     world.Add(std::make_shared<Sphere>(Float3(0.0f, 0.0f, -1.0f), 0.5f, centerMaterial));
 
-    const std::shared_ptr<Metal> leftMaterial = std::make_shared<Metal>(Float3(0.8f, 0.8f, 0.8f));
+    const std::shared_ptr<Metal> leftMaterial = std::make_shared<Metal>(Float3(0.8f, 0.8f, 0.8f), 0.3f);
     world.Add(std::make_shared<Sphere>(Float3(-1.0f, 0.0f, -1.0f), 0.5f, leftMaterial));
 
-    const std::shared_ptr<Metal> rightMaterial = std::make_shared<Metal>(Float3(0.8f, 0.6f, 0.2f));
+    const std::shared_ptr<Metal> rightMaterial = std::make_shared<Metal>(Float3(0.8f, 0.6f, 0.2f), 1.0f);
     world.Add(std::make_shared<Sphere>(Float3(1.0f, 0.0f, -1.0f), 0.5f, rightMaterial));
 
     // Render
