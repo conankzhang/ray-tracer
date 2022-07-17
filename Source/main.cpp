@@ -2,6 +2,7 @@
 
 #include "Camera/Camera.h"
 #include "Materials/Lambertian.h"
+#include "Materials/Metal.h"
 #include "Math/Float3.h"
 #include "Math/Math.h"
 #include "Math/Random.h"
@@ -74,11 +75,12 @@ int main()
 
     // Materials
     std::shared_ptr<Lambertian> groundMaterial = std::make_shared<Lambertian>(Float3(0.8f, 0.8f, 0.0f));
+    std::shared_ptr<Metal> centerMaterial = std::make_shared<Metal>(Float3(0.7f, 0.3f, 0.3f));
 
     // World
     TraceableList world;
     world.Add(std::make_shared<Sphere>(Float3(0.0f, 0.0f, -1.0f), 0.5f, groundMaterial));
-    world.Add(std::make_shared<Sphere>(Float3(0.0f, -100.5f, -1.0f), 100.0f, groundMaterial));
+    world.Add(std::make_shared<Sphere>(Float3(0.0f, -100.5f, -1.0f), 100.0f, centerMaterial));
 
     // Render
     std::cout
