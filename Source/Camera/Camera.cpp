@@ -1,8 +1,10 @@
 #include "Camera.h"
 
-Camera::Camera(float aspectRatio)
+Camera::Camera(float verticalFov, float aspectRatio)
 {
-    constexpr float viewportHeight = 2.0f;
+    const float theta = Math::DegreesToRadians(verticalFov);
+    const float height = std::tan(theta / 2.0f);
+    const float viewportHeight = 2.0f * height;
     const float viewportWidth = viewportHeight * aspectRatio;
 
     m_CameraOrigin = Float3(0.0f, 0.0f, 0.0f);

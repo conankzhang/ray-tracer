@@ -61,9 +61,10 @@ Float3 getRayColorFromWorld(const Ray& ray, const TraceableList& world, int dept
 
 int main()
 {
+    // Camera
     constexpr float aspectRatio = 16.0f / 9.0f;
-
-    const Camera camera(aspectRatio);
+    constexpr float verticalFov = 90.0f;
+    const Camera camera(verticalFov, aspectRatio);
 
     // Image
     constexpr int imageWidth = 400;
