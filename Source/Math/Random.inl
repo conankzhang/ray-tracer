@@ -51,6 +51,20 @@ inline Float3 Math::RandomFloat3InHemisphere(const Float3& normal)
     }
 }
 
+inline Float3 Math::RandomFloat3InUnitDisk()
+{
+    while (true)
+    {
+        const Float3 randomSquareFloat3 = Float3(RandomFloat(-1.0f, 1.0f), RandomFloat(-1.0f, 1.0f), 0.0f);
+        if (randomSquareFloat3.LengthSquared() >= 1.0f)
+        {
+            continue;
+        }
+
+        return randomSquareFloat3;
+    }
+}
+
 inline Float3 Math::RandomUnitVector()
 {
     return Float3::Normalized(RandomFloat3InUnitSphere());

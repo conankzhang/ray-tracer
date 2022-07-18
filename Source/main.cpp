@@ -64,10 +64,12 @@ int main()
     // Camera
     constexpr float aspectRatio = 16.0f / 9.0f;
     constexpr float verticalFov = 20.0f;
-    const Float3 cameraOrigin = Float3(-2.0f, 2.0f, 1.0f);
+    constexpr float aperture = 2.0f;
+    const Float3 cameraOrigin = Float3(3.0f, 3.0f, 2.0f);
     const Float3 focalPoint = Float3(0.0f, 0.0f, -1.0f);
     const Float3 cameraUp = Float3(0.0f, 1.0f, 0.0f);
-    const Camera camera(cameraOrigin, focalPoint, cameraUp, verticalFov, aspectRatio);
+    const float focalDistance = (cameraOrigin - focalPoint).Length();
+    const Camera camera(cameraOrigin, focalPoint, cameraUp, verticalFov, aspectRatio, aperture, focalDistance);
 
     // Image
     constexpr int imageWidth = 400;
