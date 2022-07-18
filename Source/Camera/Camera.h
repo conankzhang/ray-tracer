@@ -6,7 +6,7 @@
 class Camera final
 {
 public:
-    Camera(float verticalFov, float aspectRatio);
+    Camera(const Float3& cameraOrigin, const Float3& focalPoint, const Float3& cameraUp, float verticalFov, float aspectRatio);
 
     Ray GetRayForPixel(float u, float v) const;
 

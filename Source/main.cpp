@@ -63,8 +63,11 @@ int main()
 {
     // Camera
     constexpr float aspectRatio = 16.0f / 9.0f;
-    constexpr float verticalFov = 90.0f;
-    const Camera camera(verticalFov, aspectRatio);
+    constexpr float verticalFov = 20.0f;
+    const Float3 cameraOrigin = Float3(-2.0f, 2.0f, 1.0f);
+    const Float3 focalPoint = Float3(0.0f, 0.0f, -1.0f);
+    const Float3 cameraUp = Float3(0.0f, 1.0f, 0.0f);
+    const Camera camera(cameraOrigin, focalPoint, cameraUp, verticalFov, aspectRatio);
 
     // Image
     constexpr int imageWidth = 400;
@@ -85,7 +88,7 @@ int main()
 
     const auto leftMaterial = std::make_shared<Dielectric>(1.5f);
     world.Add(std::make_shared<Sphere>(Float3(-1.0f, 0.0f, -1.0f), 0.5f, leftMaterial));
-    world.Add(std::make_shared<Sphere>(Float3(-1.0f, 0.0f, -1.0f), -0.4f, leftMaterial));
+    world.Add(std::make_shared<Sphere>(Float3(-1.0f, 0.0f, -1.0f), -0.45f, leftMaterial));
 
     const auto rightMaterial = std::make_shared<Metal>(Float3(0.8f, 0.6f, 0.2f), 0.0f);
     world.Add(std::make_shared<Sphere>(Float3(1.0f, 0.0f, -1.0f), 0.5f, rightMaterial));
