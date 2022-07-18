@@ -5,6 +5,11 @@
 
 #include <cmath>
 
+namespace
+{
+    float reflectance(float cosine, float refractionIndex);
+}
+
 Dielectric::Dielectric(float refractionIndex)
     : m_RefractionIndex(refractionIndex)
 {
@@ -20,7 +25,7 @@ bool Dielectric::ScatterRay(const Ray& incidentRay, const HitResult& hitResult, 
 
     Float3 scatterDirection;
     const bool cannotRefract = refractionRatio * sinTheta > 1.0f;
-    if (cannotRefract)
+    if (cannotRefract || reflectance(cosTheta, refractionRatio) > Math::RandomFloat())
     {
         scatterDirection = Float3::Reflect(normalizedIncidentDirection, hitResult.m_ImpactNormal);
     }
@@ -34,3 +39,15 @@ bool Dielectric::ScatterRay(const Ray& incidentRay, const HitResult& hitResult, 
 
     return true;
 }
+
+namespace
+{
+    float reflectance(float cosine, float refractionIndex)
+    {
+        // Schlick's Approximation
+        float reflectance = (1.0f - refractionIndex) / (1.0f + refractionIndex);
+        reflectance *= reflectance;
+
+        return reflectance + (1.0f - reflectance) * std::pow((1.0f - cosine), 5.0f);
+    }
+} // namespace
